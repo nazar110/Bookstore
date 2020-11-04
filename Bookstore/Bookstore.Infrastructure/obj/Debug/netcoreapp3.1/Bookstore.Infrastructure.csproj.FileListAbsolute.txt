@@ -1,0 +1,3 @@
+D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Bookstore\Bookstore.Infrastructure\obj\Debug\netcoreapp3.1\Bookstore.Infrastructure.csprojAssemblyReference.cache
+D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Bookstore\Bookstore.Infrastructure\obj\Debug\netcoreapp3.1\Bookstore.Infrastructure.AssemblyInfoInputs.cache
+D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Bookstore\Bookstore.Infrastructure\obj\Debug\netcoreapp3.1\Bookstore.Infrastructure.AssemblyInfo.cs
