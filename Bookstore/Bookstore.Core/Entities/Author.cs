@@ -9,6 +9,6 @@ namespace Bookstore.Core.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public List<Book> Books { get; set; }
+        public List<AuthorsBooks> AuthorsBooks { get; set; }
     }
 }

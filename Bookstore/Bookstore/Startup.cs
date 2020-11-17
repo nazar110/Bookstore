@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bookstore.Core.EF;
 using Bookstore.Core.Interfaces;
+using Bookstore.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,7 +33,7 @@ namespace Bookstore
             //services.AddDbContext<BookstoreContext>(options =>
             //    options.UseSqlServer(connection));
             
-            // services.AddTransient<IBookRepository>();
+            services.AddTransient<IBookRepository, BookRepository>();
 
             services.AddControllersWithViews();
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bookstore.Models
 {
-    public class OrderDTO : IOrder
+    public class OrderDTO : IOrderRepository
     {
         public void MakeOrder(Book book)
         {

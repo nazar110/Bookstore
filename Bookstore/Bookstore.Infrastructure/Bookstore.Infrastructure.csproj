@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\Bookstore.Core\Bookstore.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bookstore.Core\Bookstore.Core.csproj" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

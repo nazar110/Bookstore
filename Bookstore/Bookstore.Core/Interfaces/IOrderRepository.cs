@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bookstore.Core.Interfaces
 {
-    public interface IOrder
+    public interface IOrderRepository
     {
         void MakeOrder(Book book);
     }

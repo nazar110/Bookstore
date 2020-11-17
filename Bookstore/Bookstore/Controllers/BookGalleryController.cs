@@ -11,8 +11,8 @@ namespace Bookstore.Controllers
     public class BookGalleryController : Controller
     {
         IBookRepository repo;
-        IOrder order;
-        public BookGalleryController(IBookRepository r, IOrder o)
+        IOrderRepository order;
+        public BookGalleryController(IBookRepository r, IOrderRepository o)
         {
             repo = r;
             order = o;

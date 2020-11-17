@@ -145,4 +145,6 @@ D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Boo
 D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Bookstore\Bookstore\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Bookstore\Bookstore\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Bookstore\Bookstore\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Bookstore\Bookstore\bin\Debug\netcoreapp3.1\Bookstore.Infrastructure.dll
+D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Bookstore\Bookstore\bin\Debug\netcoreapp3.1\Bookstore.Infrastructure.pdb
 D:\Documents\Nazar\University\2020-2021 (Сourse 4)\Course project\Bookstore\Bookstore\Bookstore\obj\Debug\netcoreapp3.1\Bookstore.MvcApplicationPartsAssemblyInfo.cache

@@ -2561,6 +2561,19 @@
         "runtime": {
           "bin/placeholder/Bookstore.Core.dll": {}
         }
+      },
+      "Bookstore.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Bookstore.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Bookstore.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Bookstore.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -8414,11 +8427,17 @@
       "type": "project",
       "path": "../Bookstore.Core/Bookstore.Core.csproj",
       "msbuildProject": "../Bookstore.Core/Bookstore.Core.csproj"
+    },
+    "Bookstore.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Bookstore.Infrastructure/Bookstore.Infrastructure.csproj",
+      "msbuildProject": "../Bookstore.Infrastructure/Bookstore.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Bookstore.Core >= 1.0.0",
+      "Bookstore.Infrastructure >= 1.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.4"
     ]
   },
@@ -8450,6 +8469,9 @@
           "projectReferences": {
             "D:\\Documents\\Nazar\\University\\2020-2021 (Сourse 4)\\Course project\\Bookstore\\Bookstore\\Bookstore.Core\\Bookstore.Core.csproj": {
               "projectPath": "D:\\Documents\\Nazar\\University\\2020-2021 (Сourse 4)\\Course project\\Bookstore\\Bookstore\\Bookstore.Core\\Bookstore.Core.csproj"
+            },
+            "D:\\Documents\\Nazar\\University\\2020-2021 (Сourse 4)\\Course project\\Bookstore\\Bookstore\\Bookstore.Infrastructure\\Bookstore.Infrastructure.csproj": {
+              "projectPath": "D:\\Documents\\Nazar\\University\\2020-2021 (Сourse 4)\\Course project\\Bookstore\\Bookstore\\Bookstore.Infrastructure\\Bookstore.Infrastructure.csproj"
             }
           }
         }

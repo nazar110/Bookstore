@@ -8,6 +8,6 @@ namespace Bookstore.Core.Entities
     {
         public int Id { get; set; }
         public string GenreName { get; set; }
-        public List<Book> Books { get; set; }
+        public List<BooksGenres> BooksGenres { get; set; }
     }
 }

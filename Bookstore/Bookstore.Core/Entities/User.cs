@@ -13,6 +13,8 @@ namespace Bookstore.Core.Entities
         public string Email { get; set; }
         // Add validation using Data Annotations
         public string Number { get; set; }
+
+        public List<Order> Orders { get; set; }
     }
 
 }

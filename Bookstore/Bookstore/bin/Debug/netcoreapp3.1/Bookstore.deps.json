@@ -25,6 +25,7 @@
       "Bookstore/1.0.0": {
         "dependencies": {
           "Bookstore.Core": "1.0.0",
+          "Bookstore.Infrastructure": "1.0.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
@@ -2191,6 +2192,17 @@
         },
         "compile": {
           "Bookstore.Core.dll": {}
+        }
+      },
+      "Bookstore.Infrastructure/1.0.0": {
+        "dependencies": {
+          "Bookstore.Core": "1.0.0"
+        },
+        "runtime": {
+          "Bookstore.Infrastructure.dll": {}
+        },
+        "compile": {
+          "Bookstore.Infrastructure.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/3.1.0.0": {
@@ -4915,6 +4927,11 @@
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
     },
     "Bookstore.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Bookstore.Infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
