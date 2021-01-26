@@ -18,7 +18,8 @@ namespace Bookstore.Core.EF
 
         public BookstoreContext()
         {
-
+            //this.Database.EnsureDeleted();
+            //this.Database.EnsureCreated();
         }
         //public BookstoreContext(DbContextOptions options) : base(options)
         //{
@@ -31,7 +32,6 @@ namespace Bookstore.Core.EF
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.Ignore<Order>();
             modelBuilder.Entity<AuthorsBooks>().HasKey(ab => new { ab.AuthorId, ab.BookId });
             modelBuilder.Entity<AuthorsBooks>().HasOne<Author>(ab => ab.Author).WithMany(a => a.AuthorsBooks).HasForeignKey(ab => ab.AuthorId);
             modelBuilder.Entity<AuthorsBooks>().HasOne<Book>(ab => ab.Book).WithMany(b => b.AuthorsBooks).HasForeignKey(ab => ab.BookId);
@@ -40,7 +40,15 @@ namespace Bookstore.Core.EF
             modelBuilder.Entity<BooksGenres>().HasOne<Book>(bg => bg.Book).WithMany(b => b.BooksGenres).HasForeignKey(bg => bg.BookId);
             modelBuilder.Entity<BooksGenres>().HasOne<Genre>(bg => bg.Genre).WithMany(g => g.BooksGenres).HasForeignKey(bg => bg.GenreId);
 
+            modelBuilder.Entity<OrdersBooks>().HasKey(ordersBooks => new { ordersBooks.OrderId, ordersBooks.BookId });
+            modelBuilder.Entity<OrdersBooks>().HasOne<Order>(ob => ob.Order).WithMany(o => o.OrdersBooks).HasForeignKey(ob => ob.OrderId);
+            modelBuilder.Entity<OrdersBooks>().HasOne<Book>(ob => ob.Book).WithMany(b => b.OrdersBooks).HasForeignKey(ob => ob.BookId);
+
+            modelBuilder.Entity<Order>().HasKey(o => o.Id);
             modelBuilder.Entity<Order>().HasOne<User>(o => o.User).WithMany(u => u.Orders).HasForeignKey(o => o.UserId);
+
+            modelBuilder.Entity<User>().HasKey(user => user.Id);
+            // modelBuilder.Entity<User>().HasMany<Order>(user => user.Orders).WithOne(order => order.User);
 
 
             //        modelBuilder.Entity<StudentCourse>()

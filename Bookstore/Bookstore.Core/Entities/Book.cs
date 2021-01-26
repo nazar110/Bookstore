@@ -11,6 +11,7 @@ namespace Bookstore.Core.Entities
         public string Description { get; set; }
         public List<BooksGenres> BooksGenres { get; set; }
         public List<AuthorsBooks> AuthorsBooks { get; set; }
+        public List<OrdersBooks> OrdersBooks { get; set; }
         public decimal Price { get; set; }
     }
 }

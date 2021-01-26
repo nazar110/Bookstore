@@ -34,6 +34,7 @@ namespace Bookstore
             //    options.UseSqlServer(connection));
             
             services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
 
             services.AddControllersWithViews();
         }
