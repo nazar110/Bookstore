@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Bookstore.Models;
 using Bookstore.Core.Interfaces;
+using Bookstore.Core.EF;
 
 namespace Bookstore.Controllers
 {
@@ -14,6 +15,7 @@ namespace Bookstore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         IBookRepository repo;
+
         public HomeController(ILogger<HomeController> logger, IBookRepository r)
         {
             _logger = logger;
@@ -22,8 +24,8 @@ namespace Bookstore.Controllers
 
         public IActionResult Index()
         {
-            //var books = repo.GetBookList();
-            //return View(books);
+            var books = repo.GetBookList();
+            return View(books);
             return View();
         }
 

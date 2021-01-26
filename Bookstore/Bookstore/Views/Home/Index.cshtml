@@ -1,8 +1,30 @@
-﻿@{
+﻿@using Bookstore.Infrastructure.Data;
+@using System.Linq;
+@{
     ViewData["Title"] = "Home Page";
+    BookRepository books = new BookRepository();
+    AuthorRepository authors = new AuthorRepository();
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Books</h1>
+        @{
+            foreach (var item in books.GetBookList())
+            {
+                <p>Title: @item.Title</p>
+
+                <p>Description: @item.Description</p>
+                // <p>Genre: @item.BooksGenres.Where(x => x.BookId == item.Id).FirstOrDefault().Genre.GenreName </p>
+                <p>Price: @item.Price</p>
+                <br />
+            }
+        }
+        <h1 class="display-4">Authors</h1>
+        @{
+            foreach (var item in authors.GetAuthorsList())
+            {
+                <p>@item.Name @item.Surname</p>
+                <br />
+            }
+        }
+    </div>
