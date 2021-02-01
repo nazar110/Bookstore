@@ -10,22 +10,22 @@ namespace Bookstore.Controllers
 {
     public class BookGalleryController : Controller
     {
-        IBookRepository repo;
+        IRepository<Book> repo;
         IOrderRepository order;
-        public BookGalleryController(IBookRepository r, IOrderRepository o)
+        public BookGalleryController(IRepository<Book> r, IOrderRepository o)
         {
             repo = r;
             order = o;
         }
         public IActionResult Index()
         {
-            var books = repo.GetBookList();
+            var books = repo.GetAll();
             return View(books);
         }
 
         public IActionResult Buy(int id)
         {
-            Book book = repo.GetBook(id);
+            Book book = repo.GetItem(id);
             order.MakeOrder(book);
             return View();
         }

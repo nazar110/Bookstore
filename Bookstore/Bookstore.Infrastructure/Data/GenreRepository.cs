@@ -9,46 +9,27 @@ using System.Text;
 
 namespace Bookstore.Infrastructure.Data
 {
-    public class AuthorRepository : IRepository<Author>
+    public class GenreRepository : IRepository<Genre>
     {
         private BookstoreContext db;
-
-        public AuthorRepository()
+        public GenreRepository()
         {
             this.db = new BookstoreContext();
         }
-        public AuthorRepository(BookstoreContext context)
+        public GenreRepository(BookstoreContext context)
         {
             this.db = context;
         }
-        public void Create(Author item)
+        public void Create(Genre item)
         {
-            db.Authors.Add(item);
+            db.Genres.Add(item);
         }
 
         public void Delete(int id)
         {
-            var author = db.Authors.Find(id);
-            if(author != null)
-                db.Authors.Remove(author);
-        }
-
-        public Author GetItem(int id)
-        {
-            return db.Authors.Find(id);
-        }
-
-        public IEnumerable<Author> GetAll()
-        {
-            return db.Authors.ToList();
-        }
-        public void Update(Author item)
-        {
-            db.Entry(item).State = EntityState.Modified;
-        }
-        public void Save()
-        {
-            db.SaveChanges();
+            var genre = db.Genres.Find(id);
+            if (genre != null)
+                db.Genres.Remove(genre);
         }
 
         private bool disposed = false;
@@ -69,6 +50,26 @@ namespace Bookstore.Infrastructure.Data
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public IEnumerable<Genre> GetAll()
+        {
+            return db.Genres.ToList();
+        }
+
+        public Genre GetItem(int id)
+        {
+            return db.Genres.Find(id);
+        }
+
+        public void Save()
+        {
+            db.SaveChanges();
+        }
+
+        public void Update(Genre item)
+        {
+            db.Entry(item).State = EntityState.Modified;
         }
     }
 }

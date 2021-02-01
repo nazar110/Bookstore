@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Bookstore.Infrastructure.Data
 {
-    public class BookRepository : IBookRepository
+    public class BookRepository : IRepository<Book>
     {
         private BookstoreContext db;
 
@@ -17,13 +17,17 @@ namespace Bookstore.Infrastructure.Data
         {
             this.db = new BookstoreContext();
         }
-
-        public IEnumerable<Book> GetBookList()
+        public BookRepository(BookstoreContext context)
         {
-            return db.Books.ToList();
+            this.db = context;
         }
 
-        public Book GetBook(int id)
+        public IEnumerable<Book> GetAll()
+        {
+            return db.Books;
+        }
+
+        public Book GetItem(int id)
         {
             return db.Books.Find(id);
         }

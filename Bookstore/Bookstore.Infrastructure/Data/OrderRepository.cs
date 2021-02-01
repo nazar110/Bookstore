@@ -14,6 +14,10 @@ namespace Bookstore.Infrastructure.Services
         {
             this.db = new BookstoreContext();
         }
+        OrderRepository(BookstoreContext context)
+        {
+            this.db = context;
+        }
         public void Create(Order order)
         {
             db.Orders.Add(order);
