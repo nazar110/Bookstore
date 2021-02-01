@@ -7,26 +7,40 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Bookstore.Models;
 using Bookstore.Core.Interfaces;
-using Bookstore.Core.EF;
+using Bookstore.ViewModels;
 
 namespace Bookstore.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        IBookRepository repo;
+        IUnitOfWork db;
 
-        public HomeController(ILogger<HomeController> logger, IBookRepository r)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork uow)
         {
             _logger = logger;
-            repo = r;
+            db = uow;
         }
 
         public IActionResult Index()
         {
-            var books = repo.GetBookList();
-            return View(books);
-            return View();
+            var booksDetails = (from b in db.Books.GetAll()
+                                join ab in db.AuthorsBooks.GetAll() on b.Id equals ab.BookId
+                                join a in db.Authors.GetAll() on ab.AuthorId equals a.Id
+                                join bg in db.BooksGenres.GetAll() on b.Id equals bg.BookId
+                                join g in db.Genres.GetAll() on bg.GenreId equals g.Id
+                                select new BookDetails()
+                                {
+                                    BookTitle = b.Title,
+                                    AuthorName = a.Name,
+                                    AuthorSurname = a.Surname,
+                                    Description = b.Description,
+                                    GenreName = g.GenreName,
+                                    Price = b.Price
+                                }).
+            ToList();
+
+            return View(booksDetails);
         }
 
         public IActionResult Privacy()

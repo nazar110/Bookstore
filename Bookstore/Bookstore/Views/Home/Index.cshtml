@@ -1,29 +1,40 @@
 ﻿@using Bookstore.Infrastructure.Data;
-@using System.Linq;
+@model List<Bookstore.ViewModels.BookDetails>;
+
 @{
     ViewData["Title"] = "Home Page";
     BookRepository books = new BookRepository();
     AuthorRepository authors = new AuthorRepository();
+    AuthorsBooksRepository authorsBooks = new AuthorsBooksRepository();
+    GenreRepository genres = new GenreRepository();
+    BooksGenresRepository booksGenres = new BooksGenresRepository();
+
+    //var booksDetails = (from b in books.GetAll()
+    //             join ab in authorsBooks.GetAll().ToList() on b.Id equals ab.BookId
+    //             join a in authors.GetAll() on ab.AuthorId equals a.Id
+    //             join bg in booksGenres.GetAll() on b.Id equals bg.BookId
+    //             join g in genres.GetAll() on bg.GenreId equals g.Id
+    //             select new BookDetails()
+    //             { BookTitle = b.Title, 
+    //                 AuthorName = a.Name, 
+    //                 AuthorSurname = a.Surname, 
+    //                 Description = b.Description,
+    //                 GenreName = g.GenreName,
+    //                 Price = b.Price }).
+    //            ToList();
+
 }
 
     <div class="text-center">
         <h1 class="display-4">Books</h1>
         @{
-            foreach (var item in books.GetBookList())
+            foreach (var item in Model)
             {
-                <p>Title: @item.Title</p>
-
+                <p>Title: @item.BookTitle</p>
+                <p>Author: @item.AuthorName @item.AuthorSurname</p>
                 <p>Description: @item.Description</p>
-                // <p>Genre: @item.BooksGenres.Where(x => x.BookId == item.Id).FirstOrDefault().Genre.GenreName </p>
+                <p>Genre: @item.GenreName</p>
                 <p>Price: @item.Price</p>
-                <br />
-            }
-        }
-        <h1 class="display-4">Authors</h1>
-        @{
-            foreach (var item in authors.GetAuthorsList())
-            {
-                <p>@item.Name @item.Surname</p>
                 <br />
             }
         }

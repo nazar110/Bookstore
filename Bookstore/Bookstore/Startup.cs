@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bookstore.Core.EF;
 using Bookstore.Core.Interfaces;
+using Bookstore.Core.Entities;
 using Bookstore.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,8 +34,9 @@ namespace Bookstore
             //services.AddDbContext<BookstoreContext>(options =>
             //    options.UseSqlServer(connection));
             
-            services.AddTransient<IBookRepository, BookRepository>();
-            services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<IRepository<Book>, BookRepository>();
+            services.AddTransient<IRepository<Author>, AuthorRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews();
         }
