@@ -1,41 +1,98 @@
-﻿@using Bookstore.Infrastructure.Data;
-@model List<Bookstore.ViewModels.BookDetails>;
-
+﻿@model Bookstore.ViewModels.IndexViewModel;
+@using Bookstore.ViewModels;
 @{
     ViewData["Title"] = "Home Page";
-    BookRepository books = new BookRepository();
-    AuthorRepository authors = new AuthorRepository();
-    AuthorsBooksRepository authorsBooks = new AuthorsBooksRepository();
-    GenreRepository genres = new GenreRepository();
-    BooksGenresRepository booksGenres = new BooksGenresRepository();
-
-    //var booksDetails = (from b in books.GetAll()
-    //             join ab in authorsBooks.GetAll().ToList() on b.Id equals ab.BookId
-    //             join a in authors.GetAll() on ab.AuthorId equals a.Id
-    //             join bg in booksGenres.GetAll() on b.Id equals bg.BookId
-    //             join g in genres.GetAll() on bg.GenreId equals g.Id
-    //             select new BookDetails()
-    //             { BookTitle = b.Title, 
-    //                 AuthorName = a.Name, 
-    //                 AuthorSurname = a.Surname, 
-    //                 Description = b.Description,
-    //                 GenreName = g.GenreName,
-    //                 Price = b.Price }).
-    //            ToList();
-
 }
 
-    <div class="text-center">
-        <h1 class="display-4">Books</h1>
-        @{
-            foreach (var item in Model)
-            {
-                <p>Title: @item.BookTitle</p>
-                <p>Author: @item.AuthorName @item.AuthorSurname</p>
-                <p>Description: @item.Description</p>
-                <p>Genre: @item.GenreName</p>
-                <p>Price: @item.Price</p>
-                <br />
-            }
-        }
+<h1 class="display-4">Books</h1>
+
+<form asp-action="Index"
+      asp-route-sortOrder="@(Model.SortViewModel.Current)">
+    <div class="form-inline form-group">
+        <input name="searchedText" class="form-control" />
+
+        <input type="submit" value="Search" class="btn btn-outline-dark" />
     </div>
+</form>
+
+<!--<div class="row mt-5 mb-2">-->
+<table class="table">
+    @{
+        <tr>
+            <th>
+                <a asp-action="Index"
+                   asp-route-searchedtext="@(Model.SearchedText)"
+                   asp-route-filterby="@(Model.Filter)"
+                   asp-route-sortOrder="@(Model.SortViewModel.TitleSort)">Title</a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-searchedtext="@(Model.SearchedText)"
+                   asp-route-filterby="@(Model.Filter)"
+                   asp-route-sortOrder="@(Model.SortViewModel.AuthorNameSort)">Author</a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-searchedtext="@(Model.SearchedText)"
+                   asp-route-filterby="@(Model.Filter)"
+                   asp-route-sortOrder="@(Model.SortViewModel.GenreSort)">Genre</a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-searchedtext="@(Model.SearchedText)"
+                   asp-route-filterby="@(Model.Filter)"
+                   asp-route-sortOrder="@(Model.SortViewModel.PriceSort)">Price</a>
+            </th>
+        </tr>
+        foreach (var item in Model.BooksDetails)
+        {
+            //<div class="col-lg-3 mb-5">
+            @*<p>Title: @item.BookTitle</p>
+                <p>Author: @item.AuthorName @item.AuthorSurname</p>
+                <p>Genre: @item.GenreName</p>
+                <p>Price: @item.Price</p>*@
+            <tr>
+                <td>@item.BookTitle</td>
+                <td>
+                    <a asp-action="Index"
+                       asp-route-searchedtext="@(Model.SearchedText)"
+                       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+                       asp-route-filterby="@item.AuthorName @item.AuthorSurname">@item.AuthorName @item.AuthorSurname</a>
+                </td>
+                <td>
+                    <a asp-action="Index"
+                       asp-route-searchedtext="@(Model.SearchedText)"
+                       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+                       asp-route-filterby="@item.GenreName">@item.GenreName</a>
+                </td>
+                <td>@item.Price</td>
+            </tr>
+            //</div>
+        }
+    }
+</table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       asp-route-filterby="@(Model.Filter)"
+       asp-route-searchedText="@(Model.SearchedText)"
+       class="btn btn-outline-dark">
+        <i class="btn-dark"></i>
+        Back
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       asp-route-filterby="@(Model.Filter)"
+       asp-route-searchedText="@(Model.SearchedText)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="btn-dark"></i>
+    </a>
+}
+<!--</div>-->
