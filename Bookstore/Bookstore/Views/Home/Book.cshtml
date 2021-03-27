@@ -1,0 +1,16 @@
+﻿@model Bookstore.Infrastructure.DTO.BookAllDetails;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<h1 class="display-4">@Model.BookTitle</h1>
+@{
+    <p>Author: @Model.AuthorName @Model.AuthorSurname</p>
+    <p>Genre: @Model.GenreName</p>
+    <p>Price: @Model.Price</p>
+    
+    <p>NumberOfPages: @Model.NumberOfPages</p>
+    <p>Publisher: @Model.PublisherName</p>
+    <p>Weight: @Model.Weight</p>
+    <p>PublicationYear: @Model.PublicationYear</p>
+    <p>Description: @Model.Description</p>
+}

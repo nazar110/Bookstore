@@ -1,4 +1,4 @@
-﻿@model Bookstore.ViewModels.IndexViewModel;
+﻿@model Bookstore.ViewModels.BooksCatalogViewModel;
 @using Bookstore.ViewModels;
 @{
     ViewData["Title"] = "Home Page";
@@ -43,6 +43,7 @@
                    asp-route-filterby="@(Model.Filter)"
                    asp-route-sortOrder="@(Model.SortViewModel.PriceSort)">Price</a>
             </th>
+            <th></th>
         </tr>
         foreach (var item in Model.BooksDetails)
         {
@@ -66,6 +67,15 @@
                        asp-route-filterby="@item.GenreName">@item.GenreName</a>
                 </td>
                 <td>@item.Price</td>
+                <td>
+                    <form asp-action="Book"
+                          asp-route-bookTitle="@item.BookTitle"
+                          asp-route-authorName="@item.AuthorName"
+                          asp-route-authorSurname="@item.AuthorSurname">
+
+                        <input type="submit" value="Details" class="btn btn-outline-dark" />
+                    </form>
+                </td>
             </tr>
             //</div>
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +10,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Bookstore.Infrastructure.Interfaces;
+using Bookstore.Infrastructure.Services;
 
 namespace Bookstore
 {
@@ -33,10 +36,11 @@ namespace Bookstore
             // adding context MobileContext as a service to the app
             //services.AddDbContext<BookstoreContext>(options =>
             //    options.UseSqlServer(connection));
-            
+
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Author>, AuthorRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IBooksDetailsService, BooksDetailsService>();
 
             services.AddControllersWithViews();
         }
