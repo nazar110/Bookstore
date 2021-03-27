@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bookstore.Core.Entities
+namespace Bookstore.Infrastructure.DTO
 {
-    public class Book
+    public class BookAllDetails
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
+        public string BookTitle { get; set; }
+        public string AuthorName { get; set; }
+        public string AuthorSurname { get; set; }
         public string Description { get; set; }
-        public List<BooksGenres> BooksGenres { get; set; }
-        public List<AuthorsBooks> AuthorsBooks { get; set; }
-        public List<OrdersBooks> OrdersBooks { get; set; }
+        public string GenreName { get; set; }
         public decimal Price { get; set; }
         public int NumberOfPages { get; set; }
         public int PublicationYear { get; set; }
