@@ -8,27 +8,27 @@ using System.Text;
 
 namespace Bookstore.Infrastructure.Data
 {
-    public class OrderRepository : IRepository<Order>
+    class UserRepository : IRepository<User>
     {
         private BookstoreContext db;
 
-        public OrderRepository()
+        public UserRepository()
         {
             this.db = new BookstoreContext();
         }
-        public OrderRepository(BookstoreContext context)
+        public UserRepository(BookstoreContext context)
         {
             this.db = context;
         }
-        public void Create(Order order)
+        public void Create(User order)
         {
-            db.Orders.Add(order);
+            db.Users.Add(order);
         }
         public void Delete(int id)
         {
-            Order order = db.Orders.Find(id);
-            if (order != null)
-                db.Orders.Remove(order);
+            User user = db.Users.Find(id);
+            if (user != null)
+                db.Users.Remove(user);
         }
 
         public void Save()
@@ -56,17 +56,17 @@ namespace Bookstore.Infrastructure.Data
             GC.SuppressFinalize(this);
         }
 
-        public IEnumerable<Order> GetAll()
+        public IEnumerable<User> GetAll()
         {
-            return db.Orders;
+            return db.Users;
         }
 
-        public Order GetItem(int id)
+        public User GetItem(int id)
         {
-            return db.Orders.Find(id);
+            return db.Users.Find(id);
         }
 
-        public void Update(Order item)
+        public void Update(User item)
         {
             db.Entry(item).State = EntityState.Modified;
         }

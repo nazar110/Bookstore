@@ -12,6 +12,8 @@ namespace Bookstore.Core.Interfaces
         public IRepository<Book> Books { get; }
         public IRepository<BooksGenres> BooksGenres { get; }
         public IRepository<Genre> Genres { get; }
-        
+        public IRepository<Order> Orders { get; }
+        public IRepository<User> Users { get; }
+
     }
 }
