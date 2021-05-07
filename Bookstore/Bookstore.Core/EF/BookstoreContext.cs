@@ -18,13 +18,8 @@ namespace Bookstore.Core.EF
 
         public BookstoreContext()
         {
-            //this.Database.EnsureDeleted();
-            //this.Database.EnsureCreated();
-        }
-        //public BookstoreContext(DbContextOptions options) : base(options)
-        //{
 
-        //}
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,33 +35,22 @@ namespace Bookstore.Core.EF
             modelBuilder.Entity<BooksGenres>().HasOne<Book>(bg => bg.Book).WithMany(b => b.BooksGenres).HasForeignKey(bg => bg.BookId);
             modelBuilder.Entity<BooksGenres>().HasOne<Genre>(bg => bg.Genre).WithMany(g => g.BooksGenres).HasForeignKey(bg => bg.GenreId);
 
-            modelBuilder.Entity<OrdersBooks>().HasKey(ordersBooks => new { ordersBooks.OrderId, ordersBooks.BookId });
-            modelBuilder.Entity<OrdersBooks>().HasOne<Order>(ob => ob.Order).WithMany(o => o.OrdersBooks).HasForeignKey(ob => ob.OrderId);
-            modelBuilder.Entity<OrdersBooks>().HasOne<Book>(ob => ob.Book).WithMany(b => b.OrdersBooks).HasForeignKey(ob => ob.BookId);
+            //modelBuilder.Entity<OrdersBooks>().HasKey(ordersBooks => new { ordersBooks.OrderId, ordersBooks.BookId });
+            //modelBuilder.Entity<OrdersBooks>().HasOne<Order>(ob => ob.Order).WithMany(o => o.OrdersBooks).HasForeignKey(ob => ob.OrderId);
+            //modelBuilder.Entity<OrdersBooks>().HasOne<Book>(ob => ob.Book).WithMany(b => b.OrdersBooks).HasForeignKey(ob => ob.BookId);
 
             modelBuilder.Entity<Order>().HasKey(o => o.Id);
             modelBuilder.Entity<Order>().HasOne<User>(o => o.User).WithMany(u => u.Orders).HasForeignKey(o => o.UserId);
+            modelBuilder.Entity<Order>().HasMany<OrderItem>(o => o.Items).WithOne(oi => oi.Order).HasForeignKey(oi => oi.OrderId);
+
+            modelBuilder.Entity<OrderItem>().HasKey(oi => oi.Id);
+            modelBuilder.Entity<OrderItem>().HasOne<Order>(oi => oi.Order).WithMany(o => o.Items).HasForeignKey(oi => oi.OrderId);
+            modelBuilder.Entity<OrderItem>().HasOne<Book>(oi => oi.Book).WithMany(b => b.OrderItems).HasForeignKey(oi => oi.BookId);
+
+            modelBuilder.Entity<Book>().HasMany<OrderItem>(b => b.OrderItems).WithOne(oi => oi.Book).HasForeignKey(oi => oi.BookId);
 
             modelBuilder.Entity<User>().HasKey(user => user.Id);
-            // modelBuilder.Entity<User>().HasMany<Order>(user => user.Orders).WithOne(order => order.User);
-
-
-            //        modelBuilder.Entity<StudentCourse>()
-            //.HasOne<Student>(sc => sc.Student)
-            //.WithMany(s => s.StudentCourses)
-            //.HasForeignKey(sc => sc.SId);
-
-
-            //        modelBuilder.Entity<StudentCourse>()
-            //            .HasOne<Course>(sc => sc.Course)
-            //            .WithMany(s => s.StudentCourses)
-            //            .HasForeignKey(sc => sc.CId);
-
-            //modelBuilder.Entity<Ticket>().HasKey(fc => new { fc.FilmId, fc.ClientId });
-
-            //modelBuilder.Entity<Ticket>().HasOne(t => t.Client).WithMany(c => c.Tickets).HasForeignKey(c => c.ClientId);
-
-            //modelBuilder.Entity<Ticket>().HasOne(t => t.Film).WithMany(f => f.Tickets).HasForeignKey(f => f.FilmId);
+            modelBuilder.Entity<User>().HasMany<Order>(u => u.Orders).WithOne(o => o.User).HasForeignKey(o => o.UserId);
         }
     }
 }

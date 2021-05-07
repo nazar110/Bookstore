@@ -24,78 +24,13 @@ namespace Bookstore.ViewModels
             BooksDetails = booksDetails;
 
             // Searching
-            if (searchedText != null)
-            {
-                SearchedText = searchedText;
-            }
-            if(SearchedText != null)
-            { 
-                List<string> words = new List<string>();
-                if (SearchedText.Contains(" "))
-                {
-                    (words = SearchedText.Split(' ').ToList()).ForEach(x => x.ToLower());
-                }
-                else
-                {
-                    words.Add(SearchedText.ToLower());
-                }
-                var query = (from bd in BooksDetails
-                             from w in words
-                             where bd.AuthorName.ToLower().Contains(w) || bd.AuthorSurname.ToLower().Contains(w) ||
-                             bd.BookTitle.ToLower().Contains(w) || bd.GenreName.ToLower().Contains(w)
-                             select bd).Distinct().ToList();
-
-                BooksDetails = query;
-            }
+            BooksDetails = SearchInCollection(BooksDetails, SearchedText, searchedText);
 
             // Filtering
-
-            if (filterBy != null)
-            {
-                Filter = filterBy;
-            }
-            if(Filter != null)
-            { 
-                var query = (from bd in BooksDetails
-                             where ($"{bd.AuthorName} {bd.AuthorSurname}" == Filter) ||
-                             bd.BookTitle == Filter ||
-                             bd.GenreName == Filter
-                             select bd).Distinct().ToList();
-
-                BooksDetails = query;
-            }
+            BooksDetails = FilteredCollection(BooksDetails, Filter, filterBy);
 
             // Sorting
-            switch (sortOrder)
-            {
-                case SortState.TitleAsc:
-                    BooksDetails = BooksDetails.OrderBy(b => b.BookTitle).ToList();
-                    break;
-                case SortState.TitleDesc:
-                    BooksDetails = BooksDetails.OrderByDescending(b => b.BookTitle).ToList();
-                    break;
-                case SortState.AuthorNameAsc:
-                    BooksDetails = BooksDetails.OrderBy(b => b.AuthorName).ToList();
-                    break;
-                case SortState.AuthorNameDesc:
-                    BooksDetails = BooksDetails.OrderByDescending(b => b.AuthorName).ToList();
-                    break;
-                case SortState.GenreAsc:
-                    BooksDetails = BooksDetails.OrderBy(b => b.GenreName).ToList();
-                    break;
-                case SortState.GenreDesc:
-                    BooksDetails = BooksDetails.OrderByDescending(b => b.GenreName).ToList();
-                    break;
-                case SortState.PriceAsc:
-                    BooksDetails = BooksDetails.OrderBy(b => b.Price).ToList();
-                    break;
-                case SortState.PriceDesc:
-                    BooksDetails = BooksDetails.OrderByDescending(b => b.Price).ToList();
-                    break;
-                default:
-                    BooksDetails = BooksDetails.OrderBy(b => b.AuthorName).ToList();
-                    break;
-            }
+            BooksDetails = SortedCollection(BooksDetails, sortOrder);
 
             // Pagination
             int pageSize = 4;
@@ -106,69 +41,86 @@ namespace Bookstore.ViewModels
             BooksDetails = items;
             SortViewModel = new SortViewModel(sortOrder);
         }
-        //public BooksCatalogViewModel()
-        //{
-        //    if (SearchedText != null)
-        //    {
-        //        List<string> words = new List<string>();
-        //        if (SearchedText.Contains(" "))
-        //        {
-        //            (words = SearchedText.Split(' ').ToList()).ForEach(x => x.ToLower());
-        //        }
-        //        else
-        //        {
-        //            words.Add(SearchedText.ToLower());
-        //        }
-        //        var query = (from bd in BooksDetails
-        //                     from w in words
-        //                     where bd.AuthorName.ToLower().Contains(w) || bd.AuthorSurname.ToLower().Contains(w) ||
-        //                     bd.BookTitle.ToLower().Contains(w) || bd.GenreName.ToLower().Contains(w)
-        //                     select bd).Distinct().ToList();
 
-        //        BooksDetails = query;
-        //        //SearchedText = searchedText;
-        //    }
+        private IEnumerable<BookBasicDetails> SearchInCollection(IEnumerable<BookBasicDetails> booksDetails, string currentSearchedText, string newSearchedText)
+        {
+            if (newSearchedText != null)
+            {
+                currentSearchedText = newSearchedText;
+            }
+            if (currentSearchedText != null)
+            {
+                List<string> words = new List<string>();
+                if (currentSearchedText.Contains(" "))
+                {
+                    words = currentSearchedText.Split(' ').Select(x => x.ToLower()).ToList();
+                }
+                else
+                {
+                    words.Add(currentSearchedText.ToLower());
+                }
+                var query = (from bd in booksDetails
+                             from w in words
+                             where bd.AuthorName.ToLower().Contains(w) || bd.AuthorSurname.ToLower().Contains(w) ||
+                             bd.BookTitle.ToLower().Contains(w) || bd.GenreName.ToLower().Contains(w)
+                             select bd).Distinct().ToList();
 
-        //    if (Filter != null)
-        //    {
-        //        var query = (from bd in BooksDetails
-        //                     where ($"{bd.AuthorName} {bd.AuthorSurname}" == Filter) ||
-        //                     bd.BookTitle == Filter ||
-        //                     bd.GenreName == Filter
-        //                     select bd).Distinct().ToList();
+                booksDetails = query;
+            }
+            return booksDetails;
+        }
+        private IEnumerable<BookBasicDetails> FilteredCollection(IEnumerable<BookBasicDetails> booksDetails, string currentFilter, string newFilter)
+        {
+            if (newFilter != null)
+            {
+                currentFilter = newFilter;
+            }
+            if (currentFilter != null)
+            {
+                var query = (from bd in booksDetails
+                             where ($"{bd.AuthorName} {bd.AuthorSurname}" == currentFilter) ||
+                             bd.BookTitle == currentFilter ||
+                             bd.GenreName == currentFilter
+                             select bd).Distinct().ToList();
 
-        //        BooksDetails = query;
-        //    }
-        //    switch (SortOrder)
-        //    {
-        //        case SortState.AuthorNameAsc:
-        //            BooksDetails = BooksDetails.OrderBy(b => b.AuthorName).ToList();
-        //            break;
-        //        case SortState.AuthorNameDesc:
-        //            BooksDetails = BooksDetails.OrderByDescending(b => b.AuthorName).ToList();
-        //            break;
-        //        case SortState.GenreAsc:
-        //            BooksDetails = BooksDetails.OrderBy(b => b.GenreName).ToList();
-        //            break;
-        //        case SortState.GenreDesc:
-        //            BooksDetails = BooksDetails.OrderByDescending(b => b.GenreName).ToList();
-        //            break;
-        //        case SortState.PriceAsc:
-        //            BooksDetails = BooksDetails.OrderBy(b => b.Price).ToList();
-        //            break;
-        //        case SortState.PriceDesc:
-        //            BooksDetails = BooksDetails.OrderByDescending(b => b.Price).ToList();
-        //            break;
-        //        default:
-        //            BooksDetails = BooksDetails.OrderBy(b => b.AuthorName).ToList();
-        //            break;
-        //    }
+                booksDetails = query;
+            }
+            return booksDetails;
+        }
+        private IEnumerable<BookBasicDetails> SortedCollection(IEnumerable<BookBasicDetails> booksDetails, SortState sortOrder)
+        {
+            switch (sortOrder)
+            {
+                case SortState.TitleAsc:
+                    booksDetails = booksDetails.OrderBy(b => b.BookTitle).ToList();
+                    break;
+                case SortState.TitleDesc:
+                    booksDetails = booksDetails.OrderByDescending(b => b.BookTitle).ToList();
+                    break;
+                case SortState.AuthorNameAsc:
+                    booksDetails = booksDetails.OrderBy(b => b.AuthorName).ToList();
+                    break;
+                case SortState.AuthorNameDesc:
+                    booksDetails = booksDetails.OrderByDescending(b => b.AuthorName).ToList();
+                    break;
+                case SortState.GenreAsc:
+                    booksDetails = booksDetails.OrderBy(b => b.GenreName).ToList();
+                    break;
+                case SortState.GenreDesc:
+                    booksDetails = booksDetails.OrderByDescending(b => b.GenreName).ToList();
+                    break;
+                case SortState.PriceAsc:
+                    booksDetails = booksDetails.OrderBy(b => b.Price).ToList();
+                    break;
+                case SortState.PriceDesc:
+                    booksDetails = booksDetails.OrderByDescending(b => b.Price).ToList();
+                    break;
+                default:
+                    booksDetails = booksDetails.OrderBy(b => b.AuthorName).ToList();
+                    break;
+            }
+            return booksDetails;
+        }
 
-        //    int pageSize = 4;
-        //    var count = BooksDetails.Count();
-        //    var items = BooksDetails.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-
-        //}
     }
 }

@@ -1,6 +1,115 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@model Bookstore.ViewModels.BooksCatalogViewModel;
+@using Bookstore.ViewModels;
+@{
+    ViewData["Title"] = "Privacy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<style>
+    .container2 {
+        position: relative;
+        width: 50%;
+        max-width: 300px;
+    }
+
+    .overlay2 {
+        position: absolute;
+        bottom: 0;
+        background: rgb(0, 0, 0);
+        background: rgba(0, 0, 0, 0.5); /* Black see-through */
+        color: #f1f1f1;
+        width: 100%;
+        transition: .5s ease;
+        opacity: 0;
+        color: white;
+        font-size: 20px;
+        padding: 20px;
+        text-align: center;
+        top: 50%;
+    }
+
+    .container2:hover .overlay2 {
+        opacity: 1;
+        top: 0;
+    }
+</style>
+<h1 class="display-4">Books</h1>
+
+<form asp-action="Privacy"
+      asp-route-sortOrder="@(Model.SortViewModel.Current)"
+      asp-route-filterby="@(Model.Filter)">
+    <div class="form-inline form-group">
+        <input name="searchedText" class="form-control" />
+
+        <input type="submit" value="Search" class="btn btn-outline-dark" />
+    </div>
+</form>
+<form asp-action="Privacy"
+      asp-route-searchedtext="@(Model.SearchedText)"
+      asp-route-filterby="@(Model.Filter)">
+    <label for="sortOrder">Sorting order</label>
+    <select name="sortOrder">
+        <option value="@(Model.SortViewModel.TitleSort)">Title</option>
+        <option value="@(Model.SortViewModel.AuthorNameSort)">Author</option>
+        <option value="@(Model.SortViewModel.GenreSort)">Genre</option>
+        <option value="@(Model.SortViewModel.PriceSort)">Price</option>
+    </select>
+    <input type="submit" value="Submit" class="btn btn-outline-dark">
+</form>
+<div class="row mt-5 mb-2">
+    @foreach (var item in Model.BooksDetails)
+    {
+    <div class="col-3 mb-5">
+        <div class="container">
+            <img src="~/img/default.png" alt="Avatar" width="200" />
+            <div class="overlay">
+                <p>@item.BookTitle</p>
+                <a asp-action="Privacy"
+                   asp-route-searchedtext="@(Model.SearchedText)"
+                   asp-route-sortOrder="@(Model.SortViewModel.Current)"
+                   asp-route-filterby="@item.AuthorName @item.AuthorSurname">@item.AuthorName @item.AuthorSurname</a>
+                <p></p>
+                <a asp-action="Privacy"
+                   asp-route-searchedtext="@(Model.SearchedText)"
+                   asp-route-sortOrder="@(Model.SortViewModel.Current)"
+                   asp-route-filterby="@item.GenreName">@item.GenreName</a>
+                <p>@item.Price</p>
+            </div>
+        </div>
+        <form asp-action="Book"
+              asp-route-bookTitle="@item.BookTitle"
+              asp-route-authorName="@item.AuthorName"
+              asp-route-authorSurname="@item.AuthorSurname">
+
+            <input type="submit" value="Details" class="btn btn-outline-dark" />
+        </form>
+
+    </div>
+    }
+
+
+</div>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Privacy"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       asp-route-filterby="@(Model.Filter)"
+       asp-route-searchedText="@(Model.SearchedText)"
+       class="btn btn-outline-dark">
+        <i class="btn-dark"></i>
+        Back
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Privacy"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       asp-route-filterby="@(Model.Filter)"
+       asp-route-searchedText="@(Model.SearchedText)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="btn-dark"></i>
+    </a>
+}

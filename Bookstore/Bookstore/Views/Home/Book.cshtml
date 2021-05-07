@@ -4,13 +4,21 @@
 *@
 <h1 class="display-4">@Model.BookTitle</h1>
 @{
-    <p>Author: @Model.AuthorName @Model.AuthorSurname</p>
-    <p>Genre: @Model.GenreName</p>
-    <p>Price: @Model.Price</p>
-    
-    <p>NumberOfPages: @Model.NumberOfPages</p>
-    <p>Publisher: @Model.PublisherName</p>
-    <p>Weight: @Model.Weight</p>
-    <p>PublicationYear: @Model.PublicationYear</p>
-    <p>Description: @Model.Description</p>
-}
+    <div class="row mt-5 mb-2">
+        <div class="col-6 mb5">
+            <img src="~/img/default.png" />
+        </div>
+            <div class="col-6 mb5">
+
+                <p>Author: @Model.AuthorName @Model.AuthorSurname</p>
+                <p>Genre: @Model.GenreName</p>
+                <p>Price: @Model.Price</p>
+
+                <p>NumberOfPages: @Model.NumberOfPages</p>
+                <p>Publisher: @Model.PublisherName</p>
+                <p>Weight: @Model.Weight</p>
+                <p>PublicationYear: @Model.PublicationYear</p>
+                <p>Description: @Model.Description</p>
+            </div>
+        </div>
+        }

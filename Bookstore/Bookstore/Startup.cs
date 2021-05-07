@@ -31,11 +31,6 @@ namespace Bookstore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // getting connection string from configuration file
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            // adding context MobileContext as a service to the app
-            //services.AddDbContext<BookstoreContext>(options =>
-            //    options.UseSqlServer(connection));
 
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Author>, AuthorRepository>();
@@ -43,6 +38,10 @@ namespace Bookstore
             services.AddTransient<IBooksDetailsService, BooksDetailsService>();
 
             services.AddControllersWithViews();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +57,7 @@ namespace Bookstore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
