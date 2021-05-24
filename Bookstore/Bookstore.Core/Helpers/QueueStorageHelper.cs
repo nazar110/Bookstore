@@ -4,13 +4,17 @@ using System.Linq;
 using System.Text;
 using Azure.Storage.Queues; // Namespace for Queue storage types
 using Azure.Storage.Queues.Models; // Namespace for PeekedMessage
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using Microsoft.IdentityModel.Protocols;
 
 namespace Bookstore.Core.Helpers
 {
     public class QueueStorageHelper
     {
-        private string connectionString = (string)JObject.Parse("appsetting.json")["ConnectionStrings"]["StorageConnectionString"];
+        // private string connectionString = (string)JObject.Parse("appsetting.json")["ConnectionStrings"]["StorageConnectionString"];
+        private string connectionString = "<connection string>";
         public void DequeueMessages(string queueName, int lastNMessages)
         {
             // Instantiate a QueueClient which will be used to manipulate the queue

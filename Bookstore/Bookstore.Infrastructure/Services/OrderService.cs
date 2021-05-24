@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bookstore.Infrastructure.Services
 {
-    class OrderService : IOrderService
+    public class OrderService : IOrderService
     {
         IUnitOfWork db;
         public OrderService(IUnitOfWork uow)
@@ -93,6 +93,80 @@ namespace Bookstore.Infrastructure.Services
             }
             return -1;
         }
+        public void SubmitOrder(UserDetails userDetails)
+        {
+            //StringBuilder message = new StringBuilder();
+            //message.Append($"<center><h2>Hello, {userDetails.Name} {userDetails.Surname}</h2></center>");
+            //message.Append($"<center><h3>Bookstore thank you for your order.</h3></center>");
+            //message.Append($"</br>");
+            //message.Append($"<h3>Order Details</h3>");
+            //message.Append($"<p>You have made order at {DateTime.Now}</p>");
+            //message.Append($"<table><tr><th>Title</th><th>Author</th><th>Price</th><th>Quantity</th><th>Overall Sum</th></tr>");
+
+            //foreach (var item in GetAllItems())
+            //{
+            //    message.Append($"<tr><td>{item.Book.BookTitle}</td><td>{item.Book.AuthorName} {item.Book.AuthorSurname}</td><td>{item.Book.Price}</td><td>{item.Quantity}</td><td>{item.Book.Price * item.Quantity}</td></tr>");
+            //}
+            //message.Append($"<tr><td></td><td></td><td></td><td>Total Sum</td><td>{GetTotalSum()}</td></tr></table>");
+            //QueueStorageHelper queue = new QueueStorageHelper();
+            //queue.InsertMessage("bookstoremailing", message.ToString());
+
+            //var userId = db.Users.GetAll().Last().Id + 1;
+            var user = new User()
+            {
+                //Id = db.Users.GetAll().Count() != 0 ? db.Users.GetAll().Last().Id + 1 : 1, // db.Users.GetAll().LastOrDefault().Id + 1,
+                Name = userDetails.Name,
+                Surname = userDetails.Surname,
+                Email = userDetails.Email,
+                Number = userDetails.Number,
+                Orders = new List<Order>(),
+            };
+
+
+            //var id = db.Orders.GetAll().Last().Id;
+
+            var order = new Order()
+            {
+                //Id = db.Orders.GetAll().Count() != 0 ? db.Orders.GetAll().Last().Id + 1 : 1,
+                DateCreated = DateTime.Now,
+                Items = new List<OrderItem>(), // change !
+                User = user,
+                UserId = user.Id
+            };
+
+            user.Orders.Add(order);
+            db.Users.Create(user);
+
+            List<OrderItem> items = new List<OrderItem>();
+            foreach (var item in GetAllItems())
+            {
+                var book = db.Books.GetAll().Where(b => b.Title == item.Book.BookTitle && b.PublisherName == item.Book.PublisherName).FirstOrDefault();
+                items.Add(new OrderItem()
+                {
+                    //Id = db.OrderItems.GetAll().FirstOrDefault() != null ? db.OrderItems.GetAll().FirstOrDefault().Id + 1 : 1,
+                    BookId = book.Id,
+                    Book = book,
+                    Quantity = item.Quantity,
+                    OrderId = order.Id,
+                    Order = order
+                }
+                );
+            }
+
+            foreach (var orderItem in items)
+            {
+                db.OrderItems.Create(orderItem);
+            }
+            order.Items.AddRange(items);
+            db.Orders.Create(order);
+
+            db.Save();
+        }
+        public List<OrderItemDetails> GetAllItems()
+        {
+            var cart = SessionHelper.GetObjectFromJson<List<OrderItemDetails>>(new HttpContextAccessor().HttpContext.Session, "cart");
+            return cart;
+        }
 
         // Remove
         public void RemoveFromOrder(string bookTitle, string authorName, string authorSurname)
@@ -108,76 +182,6 @@ namespace Bookstore.Infrastructure.Services
             var cart = SessionHelper.GetObjectFromJson<List<OrderItemDetails>>(new HttpContextAccessor().HttpContext.Session, "cart");
             var total = cart.Sum(item => item.Book.Price * item.Quantity);
             return (double)total;
-        }
-        public List<OrderItemDetails> GetAllItems()
-        {
-            var cart = SessionHelper.GetObjectFromJson<List<OrderItemDetails>>(new HttpContextAccessor().HttpContext.Session, "cart");
-            return cart;
-        }
-        public void SubmitOrder(UserDetails userDetails)
-        {
-            StringBuilder message = new StringBuilder();
-            message.Append($"<center><h2>Hello, {userDetails.Name} {userDetails.Surname}</h2></center>");
-            message.Append($"<center><h3>Bookstore thanks you for your order.</h3></center>");
-            message.Append($"</br>");
-            message.Append($"<h3>Order Details</h3>");
-            message.Append($"<p>You have made order at {DateTime.Now}</p>");
-            message.Append($"<table><tr><th>Title</th><th>Author</th><th>Price</th><th>Quantity</th><th>Overall Sum</th></tr>");
-
-            foreach (var item in GetAllItems())
-            {
-                message.Append($"<tr><td>{item.Book.BookTitle}</td><td>{item.Book.AuthorName} {item.Book.AuthorSurname}</td><td>{item.Book.Price}</td><td>{item.Quantity}</td><td>{item.Book.Price * item.Quantity}</td></tr>");
-            }
-            message.Append($"<tr><td></td><td></td><td></td><td>Total Sum</td><td>{GetTotalSum()}</td></tr></table>");
-            QueueStorageHelper queue = new QueueStorageHelper();
-            queue.InsertMessage("bookstoremailing", message.ToString());
-
-            //var id = db.Orders.GetAll().Last().Id;
-
-
-            //List<OrderItem> items = new List<OrderItem>();
-            //foreach (var item in GetAllItems())
-            //{
-            //    items.Add(new OrderItem()
-            //    {
-            //        Book = new Book()
-            //        {
-
-            //        }
-            //    }
-            //    );
-            //}
-
-            //var order = new Order()
-            //{
-            //    DateCreated = DateTime.Now,
-            //    User = new User()
-            //    {
-            //        Name = userDetails.Name,
-            //        Surname = userDetails.Surname,
-            //        Email = userDetails.Email,
-            //        Number = userDetails.Number
-            //    },
-
-            //};
-
-            //db.Users.Create(new User()
-            //{
-            //    Name = userDetails.Name,
-            //    Surname = userDetails.Surname,
-            //    Email = userDetails.Email,
-            //    Number = userDetails.Number
-            //}) ;
-            //db.Orders.Create(order);
-
-            //});
-            //// Создание конфигурации сопоставления
-            ////var config = new MapperConfiguration(cfg => cfg.CreateMap<UserDetails, UserRepository);
-            ////// Настройка AutoMapper
-            ////var mapper = new Mapper(config);
-            ////// сопоставление
-            ////var users = mapper.Map<List<IndexUserViewModel>>(repo.GetAll());
-            //throw new NotImplementedException();
         }
     }
 }

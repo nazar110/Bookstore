@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bookstore.Infrastructure.DTO
 {
-    class UserDetails
+    public class UserDetails
     {
         public string Name { get; set; }
         public string Surname { get; set; }

@@ -9,29 +9,43 @@ using System.Text;
 
 namespace Bookstore.Infrastructure.Data
 {
-    class UserRepository : IRepository<User>
+    public class OrderItemRepository : IRepository<OrderItem>
     {
         private BookstoreContext db;
 
-        public UserRepository()
+        public OrderItemRepository()
         {
             this.db = new BookstoreContext();
         }
-        public UserRepository(BookstoreContext context)
+        public OrderItemRepository(BookstoreContext context)
         {
             this.db = context;
         }
-        public void Create(User order)
+        public void Create(OrderItem item)
         {
-            db.Users.Add(order);
-        }
-        public void Delete(int id)
-        {
-            User user = db.Users.Find(id);
-            if (user != null)
-                db.Users.Remove(user);
+            db.OrderItems.Add(item);
         }
 
+        public void Delete(int id)
+        {
+            var orderItem = db.OrderItems.Find(id);
+            if (orderItem != null)
+                db.OrderItems.Remove(orderItem);
+        }
+
+        public OrderItem GetItem(int id)
+        {
+            return db.OrderItems.Find(id);
+        }
+
+        public IEnumerable<OrderItem> GetAll()
+        {
+            return db.OrderItems.ToList();
+        }
+        public void Update(OrderItem item)
+        {
+            db.Entry(item).State = EntityState.Modified;
+        }
         public void Save()
         {
             db.SaveChanges();
@@ -55,21 +69,6 @@ namespace Bookstore.Infrastructure.Data
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            return db.Users.ToList();
-        }
-
-        public User GetItem(int id)
-        {
-            return db.Users.Find(id);
-        }
-
-        public void Update(User item)
-        {
-            db.Entry(item).State = EntityState.Modified;
         }
     }
 }

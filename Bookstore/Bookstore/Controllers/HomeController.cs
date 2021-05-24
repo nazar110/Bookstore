@@ -10,6 +10,7 @@ using Bookstore.Core.Interfaces;
 using Bookstore.ViewModels;
 using Bookstore.Helpers;
 using Bookstore.Infrastructure.Interfaces;
+using Bookstore.Infrastructure.DTO;
 
 namespace Bookstore.Controllers
 {
@@ -17,11 +18,13 @@ namespace Bookstore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         IBooksDetailsService BooksDetailsService;
+        IOrderService OrderService;
 
-        public HomeController(ILogger<HomeController> logger, IBooksDetailsService booksDetService)
+        public HomeController(ILogger<HomeController> logger, IBooksDetailsService booksDetService, IOrderService orderService)
         {
             _logger = logger;
             BooksDetailsService = booksDetService;
+            OrderService = orderService;
         }
 
         public IActionResult Index(int page = 1, SortState sortOrder = SortState.AuthorNameAsc, string searchedText = null, string filterBy = null)
@@ -36,6 +39,28 @@ namespace Bookstore.Controllers
             return View(bookAllDetails);
         }
 
+        public IActionResult AddToOrder(string bookTitle, string authorName, string authorSurname)
+        {
+            // <a href="/Admin/Category/Upsert?CategoryID=${item.categoryID}&CategoryName=${item.categoryName}" class="btn btn-success">Edit</a>
+            OrderService.AddToOrder(bookTitle, authorName, authorSurname);
+            return RedirectToAction("Book", "Home", new { bookTitle = bookTitle, authorName = authorName, authorSurname = authorSurname });
+        }
+        public IActionResult OrderedBooks()
+        {
+            var orderedItems = OrderService.GetAllItems();
+            return View(orderedItems);
+        }
+
+        public IActionResult RemoveFromOrder(string bookTitle, string authorName, string authorSurname)
+        {
+            OrderService.RemoveFromOrder(bookTitle, authorName, authorSurname);
+            return RedirectToAction("OrderedBooks", "Home");
+        }
+        public IActionResult SubmitOrder(UserDetails userDetails)
+        {
+            OrderService.SubmitOrder(userDetails);
+            return RedirectToAction("Index");
+        }
         public IActionResult Privacy(int page = 1, SortState sortOrder = SortState.AuthorNameAsc, string searchedText = null, string filterBy = null)
         {
             var BooksDetails = BooksDetailsService.GetAllBooksWithBasicDetails().ToList();

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bookstore.Infrastructure.DTO
 {
-    class OrderItemDetails
+    public class OrderItemDetails
     {
         public int Quantity { get; set; }
         public BookAllDetails Book { get; set; }

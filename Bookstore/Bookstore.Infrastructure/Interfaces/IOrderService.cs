@@ -5,11 +5,14 @@ using System.Text;
 
 namespace Bookstore.Infrastructure.Interfaces
 {
-    interface IOrderService
-    {
-        // Buy
+    public interface IOrderService
+    {        
         public void AddToOrder(string bookTitle, string authorName, string authorSurname);
         public int IndexOfBookInOrder(string bookTitle, string authorName, string authorSurname);
         public void SubmitOrder(UserDetails userDetails);
+
+        public List<OrderItemDetails> GetAllItems();
+        public void RemoveFromOrder(string bookTitle, string authorName, string authorSurname);
+        public double GetTotalSum();
     }
 }
