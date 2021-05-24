@@ -17,6 +17,7 @@ namespace Bookstore.Infrastructure.Data
         private GenreRepository genreRepository;
         private OrderRepository orderRepository;
         private UserRepository userRepository;
+        private OrderItemRepository orderItemRepository;
 
         public IRepository<Author> Authors
         {
@@ -63,9 +64,6 @@ namespace Bookstore.Infrastructure.Data
                 return genreRepository;
             }
         }
-
-
-
         public IRepository<Order> Orders
         {
             get
@@ -75,7 +73,6 @@ namespace Bookstore.Infrastructure.Data
                 return orderRepository;
             }
         }
-
         public IRepository<User> Users
         {
             get
@@ -84,6 +81,19 @@ namespace Bookstore.Infrastructure.Data
                     userRepository = new UserRepository(db);
                 return userRepository;
             }
+        }
+        public IRepository<OrderItem> OrderItems
+        {
+            get
+            {
+                if (orderItemRepository == null)
+                    orderItemRepository = new OrderItemRepository(db);
+                return orderItemRepository;
+            }
+        }
+        public void Save()
+        {
+            db.SaveChanges();
         }
     }
 }

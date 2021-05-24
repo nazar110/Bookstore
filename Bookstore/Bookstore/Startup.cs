@@ -36,6 +36,7 @@ namespace Bookstore
             services.AddTransient<IRepository<Author>, AuthorRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IBooksDetailsService, BooksDetailsService>();
+            services.AddTransient<IOrderService, OrderService>();
 
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();

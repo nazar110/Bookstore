@@ -8,17 +8,23 @@
         <div class="col-6 mb5">
             <img src="~/img/default.png" />
         </div>
-            <div class="col-6 mb5">
+        <div class="col-6 mb5">
 
-                <p>Author: @Model.AuthorName @Model.AuthorSurname</p>
-                <p>Genre: @Model.GenreName</p>
-                <p>Price: @Model.Price</p>
+            <p>Author: @Model.AuthorName @Model.AuthorSurname</p>
+            <p>Genre: @Model.GenreName</p>
+            <p>Price: @Model.Price</p>
 
-                <p>NumberOfPages: @Model.NumberOfPages</p>
-                <p>Publisher: @Model.PublisherName</p>
-                <p>Weight: @Model.Weight</p>
-                <p>PublicationYear: @Model.PublicationYear</p>
-                <p>Description: @Model.Description</p>
-            </div>
+            <p>NumberOfPages: @Model.NumberOfPages</p>
+            <p>Publisher: @Model.PublisherName</p>
+            <p>Weight: @Model.Weight</p>
+            <p>PublicationYear: @Model.PublicationYear</p>
+            <p>Description: @Model.Description</p>
+            <form asp-action="AddToOrder"
+                  asp-route-bookTitle="@Model.BookTitle"
+                  asp-route-authorName="@Model.AuthorName"
+                  asp-route-authorSurname="@Model.AuthorSurname">
+                <input type="submit" value="Add To Order" class="btn btn-outline-dark" />
+            </form>
         </div>
-        }
+    </div>
+}

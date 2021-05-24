@@ -4,6 +4,7 @@ using Bookstore.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Bookstore.Infrastructure.Data
@@ -58,7 +59,7 @@ namespace Bookstore.Infrastructure.Data
 
         public IEnumerable<Order> GetAll()
         {
-            return db.Orders;
+            return db.Orders.ToList();
         }
 
         public Order GetItem(int id)
