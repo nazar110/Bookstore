@@ -14,5 +14,9 @@ namespace Bookstore.Infrastructure.Interfaces
         public List<OrderItemDetails> GetAllItems();
         public void RemoveFromOrder(string bookTitle, string authorName, string authorSurname);
         public double GetTotalSum();
+        public void SaveOrderToDB(UserDetails userDetails);
+        public string CreateEmailNotification(UserDetails userDetails);
+        public void SendEmailNotification(UserDetails userDetails, string message);
+        public void ClearCart();
     }
 }

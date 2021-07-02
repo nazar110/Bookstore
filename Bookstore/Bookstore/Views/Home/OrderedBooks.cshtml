@@ -6,9 +6,6 @@
 @{
     <div class="row mt-5 mb-2">
         <div class="col-6 mb5">
-            <img src="~/img/default.png" />
-        </div>
-        <div class="col-6 mb5">
             @foreach (var item in Model)
             {
                 <p>Title: @item.Book.BookTitle</p>
@@ -16,7 +13,7 @@
                 <p>Genre: @item.Book.GenreName</p>
                 <p>Price: @item.Book.Price</p>
                 <p>Quantity: @item.Quantity</p>
-                <p>Book's Overal Price: @item.Book.Price * @item.Quantity</p>
+                <p>Book's Overal Price: @(item.Book.Price * item.Quantity)</p>
                 <form asp-action="RemoveFromOrder"
                       asp-route-bookTitle ="@item.Book.BookTitle"
                       asp-route-authorName="@item.Book.AuthorName"
@@ -24,11 +21,6 @@
                       <input type="submit" value="Remove" class="btn btn-danger"/>
                 </form>
 
-                @*<p>NumberOfPages: @item.Book.NumberOfPages</p>
-                    <p>Publisher: @item.Book.PublisherName</p>
-                    <p>Weight: @item.Book.Weight</p>
-                    <p>PublicationYear: @item.Book.PublicationYear</p>
-                    <p>Description: @item.Book.Description</p>*@
             }
             <h1>Total Sum: @Model.Sum(item => item.Book.Price * item.Quantity)</h1>
 
@@ -45,7 +37,7 @@
                 <label for="number">Number</label><br />
                 <input type="text" name="number" /><br />
 
-                <input type="submit" value="Submit Order" class="btn btn-outline-success" id="submit_input"/>
+                <input type="submit" value="Submit" class="btn btn-outline-success" id="submit_input"/>
             </form>
         </div>
     </div>
