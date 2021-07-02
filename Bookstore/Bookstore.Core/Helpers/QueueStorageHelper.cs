@@ -13,7 +13,7 @@ namespace Bookstore.Core.Helpers
 {
     public class QueueStorageHelper
     {
-        // private string connectionString = (string)JObject.Parse("appsetting.json")["ConnectionStrings"]["StorageConnectionString"];
+        //private string connectionString = (string)JObject.Parse("appsetting.json")["ConnectionStrings"]["StorageConnectionString"];
         private string connectionString = "<connection string>";
         public void DequeueMessages(string queueName, int lastNMessages)
         {
